@@ -12,6 +12,7 @@ import {
   uniqueIndex,
 } from "drizzle-orm/pg-core";
 
+// partially taken from https://authjs.dev/getting-started/adapters/drizzle
 export const users = pgTable("users", {
   id: text("id")
     .primaryKey()

@@ -21,7 +21,9 @@ export default async function middleware(req: NextRequest) {
   let hostname = req.headers
     .get("host")!
     .replace(".localhost:3000", `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`);
-
+  // remove once worked out in production
+  console.log("req.headers.get('host')", req.headers.get("host"));
+  console.log("hostname", hostname);
   // special case for Vercel preview deployment URLs
   if (
     hostname.includes("---") &&
@@ -37,10 +39,15 @@ export default async function middleware(req: NextRequest) {
   const path = `${url.pathname}${
     searchParams.length > 0 ? `?${searchParams}` : ""
   }`;
+  // remove once worked out in production
+  console.log("hostname2", hostname);
+  console.log("path", path);
 
   // rewrites for app pages
   if (hostname == `app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
     const session = await getToken({ req });
+    // remove once worked out in production
+    console.log("session", session);
     if (!session && path !== "/login") {
       return NextResponse.redirect(new URL("/login", req.url));
     } else if (session && path == "/login") {
@@ -64,7 +71,11 @@ export default async function middleware(req: NextRequest) {
     hostname === process.env.NEXT_PUBLIC_ROOT_DOMAIN
   ) {
     return NextResponse.rewrite(
+      // original
       new URL(`/home${path === "/" ? "" : path}`, req.url),
+      // fixes the issue with localhost:3000/:path throwing wierd missing DATABASE_URL errors from missing pages in App router
+      // may limit the routes available forcing all to redirect to /home
+      // new URL(`/home`, req.url),
     );
   }
 

@@ -74,7 +74,12 @@ export default function Nav({ children }: { children: ReactNode }) {
         setSiteId(id);
       });
     }
-  }, [segments, id]);
+  // }, [segments, id]);
+  // review
+  // https://github.com/vercel/platforms/issues/380
+  // and https://github.com/vercel/platforms/pull/387 to fix properly
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   const tabs = useMemo(() => {
     if (segments[0] === "site" && id) {
