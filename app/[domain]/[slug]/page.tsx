@@ -59,7 +59,7 @@ export async function generateStaticParams() {
     })
     .from(posts)
     .leftJoin(sites, eq(posts.siteId, sites.id))
-    .where(eq(sites.subdomain, "demo")); // feel free to remove this filter if you want to generate paths for all posts
+    // .where(eq(sites.subdomain, "demo")); // feel free to remove this filter if you want to generate paths for all posts
 
   const allPaths = allPosts
     .flatMap(({ site, slug }) => [
@@ -85,6 +85,8 @@ export default async function SitePostPage({
   const domain = decodeURIComponent(params.domain);
   const slug = decodeURIComponent(params.slug);
   const data = await getPostData(domain, slug);
+  console.log("slug", slug);
+  console.log("data", data);
 
   if (!data) {
     notFound();

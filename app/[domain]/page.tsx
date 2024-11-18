@@ -10,7 +10,7 @@ import db from "@/lib/db";
 export async function generateStaticParams() {
   const allSites = await db.query.sites.findMany({
     // feel free to remove this filter if you want to generate paths for all sites
-    where: (sites, { eq }) => eq(sites.subdomain, "demo"),
+    // where: (sites, { eq }) => eq(sites.subdomain, "demo"),
     columns: {
       subdomain: true,
       customDomain: true,
